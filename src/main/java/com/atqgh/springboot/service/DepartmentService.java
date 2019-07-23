@@ -17,4 +17,6 @@ public interface DepartmentService {
     public Integer insertDept(Department department);
 
     public Integer updateDept(Department department);
+
+    public void testDepartment(int num);
 }

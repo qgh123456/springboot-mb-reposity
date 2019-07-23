@@ -1,6 +1,8 @@
 package com.atqgh.springboot.service.impl;
 
 import com.atqgh.springboot.bean.Department;
+import com.atqgh.springboot.common.enums.ExceptionEnum;
+import com.atqgh.springboot.common.exception.CommonException;
 import com.atqgh.springboot.mapper.DepartmentMapper;
 import com.atqgh.springboot.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     DepartmentMapper departmentMapper;
+
     @Override
     public Department getDeptById(Integer id) {
         return departmentMapper.getDeptById(id);
@@ -36,4 +39,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Integer updateDept(Department department) {
         return departmentMapper.updateDept(department);
     }
+
+    @Override
+    public void testDepartment(int num) {
+        if(num == 1){
+            throw new CommonException(ExceptionEnum.CATEGORY_NOT_FOUND);
+        }
+    }
+
+
 }
