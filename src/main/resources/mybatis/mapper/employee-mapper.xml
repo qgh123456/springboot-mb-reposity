@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atqgh.springboot.mapper.EmployeeMapper">
+
+    <!--public Employee getEmployeeByid(Integer id);-->
+    <select id="getEmployeeByid" resultType="com.atqgh.springboot.bean.Employee" parameterType="java.lang.Integer">
+       select * from employee where id=#{id}
+    </select>
+
+    <!--public void  insertEmployee(Employee employee);-->
+    <insert id="insertEmployee" parameterType="com.atqgh.springboot.bean.Employee">
+        insert into employee(lastName,email,gender,d_id) values(#{lastName},#{email},#{gender},#{dId});
+    </insert>
+
+    <!--int findByName(String lastName);-->
+    <select id="findByName" resultType="java.lang.Integer">
+        select count(1)
+        from employee
+        <where>
+          <if test="email != null and email != ''">
+              email = #{email}
+          </if>
+          <if test="email == null or email == ''">
+            email = '1253@qq.com'
+          </if>
+          <if test="lastName != null and lastName != ''">
+              and lastName = #{lastName}
+          </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atqgh.springboot.mapper.NlCoreAccTranflowMapper">
+
+    <update id="updateByPrikey" parameterType="java.util.Map">
+        update nl_core_acc_tranflow
+        set
+            <if test="innerAccNo != null and innerAccNo != ''">
+                innerAccNo = #{innerAccNo},
+            </if>
+            notify_result = #{notifyResult},
+            error_msg = #{errorMsg}
+        where  tranFlow = #{tranFlow}
+    </update>
+</mapper>
