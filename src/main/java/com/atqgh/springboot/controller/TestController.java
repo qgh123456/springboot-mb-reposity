@@ -2,13 +2,16 @@ package com.atqgh.springboot.controller;
 
 import com.atqgh.springboot.bean.User;
 import com.atqgh.springboot.mapper.UserMapper;
+import com.atqgh.springboot.util.RedisUtil;
 import com.atqgh.springboot.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //import com.atqgh.springboot.mapper.NlCoreAccTranflowMapper;
@@ -28,6 +31,9 @@ public class TestController {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    RedisUtil redisUtil;
 
 
     @RequestMapping("/result")
@@ -74,5 +80,27 @@ public class TestController {
     public Integer po(String name){
         Integer id = userMapper.selectOne(name);
         return id;
+    }
+
+    @RequestMapping("/po3")
+    @ResponseBody
+    public Integer po3(String name){
+       /* Integer id = userMapper.selectOne(name);
+        return id;*/
+        List<User> userList = new ArrayList<User>();
+        User user1 = new User();
+        user1.setName("jack");
+        user1.setSex("男");
+        user1.setAge(20);
+        userList.add(user1);
+        User user2 = new User();
+        user2.setName("jack");
+        user2.setSex("男");
+        user2.setAge(20);
+        userList.add(user2);
+        redisUtil.lSet("userList",userList);
+        List<Object> userList2 = redisUtil.lGet("userList",0,-1);
+        System.out.println(userList2);
+        return 4444;
     }
 }
