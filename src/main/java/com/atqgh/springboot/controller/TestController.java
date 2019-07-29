@@ -1,11 +1,13 @@
 package com.atqgh.springboot.controller;
 
+import com.atqgh.springboot.annotation.AccessLimit;
 import com.atqgh.springboot.bean.User;
 import com.atqgh.springboot.mapper.UserMapper;
 import com.atqgh.springboot.util.RedisUtil;
 import com.atqgh.springboot.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //import com.atqgh.springboot.mapper.NlCoreAccTranflowMapper;
 
@@ -35,6 +38,7 @@ public class TestController {
     @Autowired
     RedisUtil redisUtil;
 
+    private static final AtomicInteger ATOMIC_INTEGER = new AtomicInteger();
 
     @RequestMapping("/result")
     @ResponseBody
@@ -103,4 +107,13 @@ public class TestController {
         System.out.println(userList2);
         return 4444;
     }
+
+    @AccessLimit(key = "test", period = 100, count = 10,prefix="test.test.")
+    // 意味著 100S 内最多允許訪問10次
+    @GetMapping("/test")
+    @ResponseBody
+    public int testLimiter() {
+        return ATOMIC_INTEGER.incrementAndGet();
+    }
+
 }
