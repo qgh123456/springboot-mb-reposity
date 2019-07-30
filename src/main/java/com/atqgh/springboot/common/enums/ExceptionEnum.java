@@ -56,7 +56,9 @@ public enum ExceptionEnum  {
     SPEC_GROUP_CREATE_FAILED(500, "新增规格组失败"),
     SPEC_GROUP_NOT_FOUND(206, "规格组查询失败"),
     DELETE_SPEC_GROUP_FAILED(500, "商品规格组删除失败"),
-    UPDATE_SPEC_GROUP_FAILED(500, "商品规格组更新失败")
+    UPDATE_SPEC_GROUP_FAILED(500, "商品规格组更新失败"),
+
+    SPEC_REACHING_THE_CURRENT_LIMIT(500,"服务失败，已达到接口的最大值")
     ;
 
     private int code;

@@ -1,6 +1,8 @@
 package com.atqgh.springboot.config;
 
 import com.atqgh.springboot.annotation.AccessLimit;
+import com.atqgh.springboot.common.enums.ExceptionEnum;
+import com.atqgh.springboot.common.exception.CommonException;
 import com.atqgh.springboot.enums.LimitType;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +41,6 @@ public class LimitAspect {
 
     @Around("execution(public * *(..)) && @annotation(com.atqgh.springboot.annotation.AccessLimit)")
     public Object interceptor(ProceedingJoinPoint pjp) {
-        System.out.println("11122222233333333");
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         AccessLimit limitAnno = method.getAnnotation(AccessLimit.class);
@@ -74,7 +75,8 @@ public class LimitAspect {
             }
         } catch (Throwable e) {
             if (e instanceof RuntimeException) {
-                throw new RuntimeException(e.getLocalizedMessage());
+//                throw new RuntimeException(e.getLocalizedMessage());
+                throw new CommonException(ExceptionEnum.SPEC_REACHING_THE_CURRENT_LIMIT);
             }
             throw new RuntimeException("server exception");
         }
